@@ -1,0 +1,51 @@
+a regular expression
+a regex
+a regexp
+an ASCII puke
+a
+aa
+aaa
+aaaa
+b
+bb
+bbb
+bbbb
+ab
+aab
+aaab
+abb
+abbb
+aba
+abab
+bab
+baba
+abc?def
+aaaa?bbbb
+aabb
+bbaa
+12.34
+12,34
+12?34
+12%34
+cat
+caat
+caaat
+regex
+regexp
+<p>foo</p>
+underscore_underscore
+multiple words
+123-456
+#abc
+#f00
+#bada55
+#c0ffee
+a$9 %fz
+JavaScript
+ECMAScript
+-1
+.05
++1000
+3.14159
+42.
+-0.23
