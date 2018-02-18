@@ -1,9 +1,10 @@
 window.onload = function() {
 
   const numOfColorsAtIndex = 4;
-  const numOfColors = 65536;
-  const divider = 4.0005;
-  const createFlamesRandomRows = 2;
+  const numOfColors = 256*256*256;
+  const divider = 4.0000001;
+  //const divider = 5;
+  const createFlamesRandomRows = 1;
 
   var createFlamesCurrentRandomRows = 0;
   var canvas = document.getElementById("viewport");
@@ -134,43 +135,44 @@ window.onload = function() {
   // Create the image
   function createFlames() {
     var paletteIndex = 0, useForThisNumberOfPixels = 0;
-
     if (createFlamesCurrentRandomRows % createFlamesRandomRows == 0) {
       createFlamesCurrentRandomRows = 1;
       for (var x=0; x<width; x++) {
-        if (useForThisNumberOfPixels == 0) {
-          //paletteIndex = Math.round(Math.random()*2)*(numOfColors/4+numOfColors/8);
-          paletteIndex = Math.floor(Math.random()*numOfColors);
-          useForThisNumberOfPixels = Math.floor(Math.random()*5);
-        } else {
-          useForThisNumberOfPixels--;
+        if (Math.random()>0.9) {
+          if (useForThisNumberOfPixels == 0) {
+            //paletteIndex = Math.round(Math.random()*2)*(numOfColors/4+numOfColors/8);
+            paletteIndex = Math.floor(Math.random()*numOfColors);
+            useForThisNumberOfPixels = Math.floor(Math.random()*1);
+          } else {
+            useForThisNumberOfPixels--;
+          }
+          imagedata.data[pixelIndex(x,height-1,'r')] = getColor(paletteIndex,'r');
+          imagedata.data[pixelIndex(x,height-1,'g')] = getColor(paletteIndex,'g');
+          imagedata.data[pixelIndex(x,height-1,'b')] = getColor(paletteIndex,'b');
+          imagedata.data[pixelIndex(x,height-1,'a')] = 255;
         }
-        imagedata.data[pixelIndex(x,height-1,'r')] = getColor(paletteIndex,'r');
-        imagedata.data[pixelIndex(x,height-1,'g')] = getColor(paletteIndex,'g');
-        imagedata.data[pixelIndex(x,height-1,'b')] = getColor(paletteIndex,'b');
-        imagedata.data[pixelIndex(x,height-1,'a')] = 255;
+        createFlamesCurrentRandomRows++;
       }
     }
 
-    createFlamesCurrentRandomRows++;
-
     for (var y = 0; y<height-1; y++) {
       for (var x = 0; x<width-1; x++) {
+        var divid = (Math.random()/1000)+divider;
         imagedata.data[pixelIndex(x,y,'r')] =
           (imagedata.data[pixelIndex(x-1,(y+1)%height,'r')] +
            imagedata.data[pixelIndex(x  ,(y+1)%height,'r')] +
            imagedata.data[pixelIndex(x+1,(y+1)%height,'r')] +
-           imagedata.data[pixelIndex(x  ,(y+2)%height,'r')]) / divider;
+           imagedata.data[pixelIndex(x  ,(y+2)%height,'r')]) / divid;
         imagedata.data[pixelIndex(x,y,'g')] =
           (imagedata.data[pixelIndex(x-1,(y+1)%height,'g')] +
            imagedata.data[pixelIndex(x  ,(y+1)%height,'g')] +
            imagedata.data[pixelIndex(x+1,(y+1)%height,'g')] +
-           imagedata.data[pixelIndex(x  ,(y+2)%height,'g')]) / divider;
+           imagedata.data[pixelIndex(x  ,(y+2)%height,'g')]) / divid;
         imagedata.data[pixelIndex(x,y,'b')] =
           (imagedata.data[pixelIndex(x-1,(y+1)%height,'b')] +
            imagedata.data[pixelIndex(x  ,(y+1)%height,'b')] +
            imagedata.data[pixelIndex(x+1,(y+1)%height,'b')] +
-           imagedata.data[pixelIndex(x  ,(y+2)%height,'b')]) / divider;
+           imagedata.data[pixelIndex(x  ,(y+2)%height,'b')]) / divid;
         imagedata.data[pixelIndex(x,y,'a')] = 256;
       }
     }
