@@ -72,6 +72,56 @@ window.onload = function() {
     }
   }
 
+/*
+  _______
+  #FF0000 to
+  #FFFF00 to
+  #00FF00 to
+  #00FFFF to
+  #0000FF to
+  #FF00FF to
+  #FF0000
+*/
+function generatePalette2() {
+  // 7 szín - 6 elem
+  var partialNumOfColors = Math.floor(numOfColors/6);
+  // #FF0000 to #FFFF00
+  for (var i = 0; i<partialNumOfColors; i++) {
+    paletteRed[i]   = 255;
+    paletteGreen[i] = Math.floor(i / partialNumOfColors * 256);
+    paletteBlue[i]  = 0;
+  }
+  // #FFFF00 to #00FF00
+  for (var i = partialNumOfColors; i<2*partialNumOfColors; i++) {
+    paletteRed[i]   = Math.floor((2*partialNumOfColors - i) / partialNumOfColors * 256);
+    paletteGreen[i] = 255;
+    paletteBlue[i]  = 0;
+  }
+  // #00FF00 to #00FFFF
+  for (var i = 2*partialNumOfColors; i<3*partialNumOfColors; i++) {
+    paletteRed[i]   = 0;
+    paletteGreen[i] = 255;
+    paletteBlue[i]  = Math.floor((i - 2*partialNumOfColors) / partialNumOfColors * 256);
+  }
+  // #00FFFF to #0000FF
+  for (var i = 3*partialNumOfColors; i<4*partialNumOfColors; i++) {
+    paletteRed[i]   = 0;
+    paletteGreen[i] = Math.floor((4*partialNumOfColors - i) / partialNumOfColors * 256);
+    paletteBlue[i]  = 255;
+  }
+  // #0000FF to #FF00FF
+  for (var i = 4*partialNumOfColors; i<5*partialNumOfColors; i++) {
+    paletteRed[i]   = Math.floor((i - 4*partialNumOfColors) / partialNumOfColors * 256);
+    paletteGreen[i] = 0;
+    paletteBlue[i]  = 255;
+  }
+  // #FF00FF to #FF0000
+  for (var i = 5*partialNumOfColors; i<6*partialNumOfColors; i++) {
+    paletteRed[i]   = 255;
+    paletteGreen[i] = 0;
+    paletteBlue[i]  = Math.floor((6*partialNumOfColors - i) / partialNumOfColors * 256);
+  }
+}
   function getColor(index, colorComp) {
     switch (colorComp) {
       case 'r':
@@ -122,7 +172,7 @@ window.onload = function() {
       context.putImageData(imagedata, 0, 1);
   }
 
-  generatePalette();
+  generatePalette2();
 
   // Call the main loop
   main();
