@@ -43,7 +43,12 @@ window.onload = function() {
 
   // to calculate the pixel index
   function pixelIndex(x, y, colorComp) {
+    // x --> fi
+    // y --> MAXradius - r
+    // var xnew = Math.round( (y) * Math.cos( ((x / width) * 2*Math.PI) ) );
+    // var ynew = Math.round( (y) * Math.sin( ((x / width) * 2*Math.PI) ) );
     var pixelIndex = (y * width + x) * numOfColorsAtIndex;
+    // var pixelIndex = (ynew * width + xnew) * numOfColorsAtIndex;
     var colorCompOffset = 0;
     switch (colorComp) {
       case 'r':
@@ -112,6 +117,32 @@ window.onload = function() {
     for (var i = halfNumOfColors + quarterNumOfColors; i<numOfColors; i++) {
       paletteRed[i]   = Math.floor((numOfColors - i) / quarterNumOfColors * 256);
       paletteGreen[i] = 0;
+      paletteBlue[i]  = 0;
+    }
+  }
+
+  /*
+  Colors from
+    #FFFFFF to
+    #FFFF00 to
+    #FF8000 to
+    #FF0000
+  */
+  function generatePalette4() {
+    var partialNumOfColors = Math.floor(numOfColors/3);
+    for (var i = 0; i<partialNumOfColors; i++) {
+      paletteRed[i]   = 255;
+      paletteGreen[i] = 255;
+      paletteBlue[i]  = Math.floor((partialNumOfColors - i) / partialNumOfColors * 256);
+    }
+    for (var i = partialNumOfColors; i<2*partialNumOfColors; i++) {
+      paletteRed[i]   = 255;
+      paletteGreen[i] = Math.floor((2*partialNumOfColors - i) / partialNumOfColors * 128) + 128;
+      paletteBlue[i]  = 0;
+    }
+    for (var i = 2*partialNumOfColors; i<3*partialNumOfColors; i++) {
+      paletteRed[i]   = 255;
+      paletteGreen[i] = Math.floor((3*partialNumOfColors - i) / partialNumOfColors * 128);
       paletteBlue[i]  = 0;
     }
   }
@@ -189,7 +220,7 @@ function generatePalette2() {
     if (createFlamesCurrentRandomRows % createFlamesRandomRows == 0) {
       createFlamesCurrentRandomRows = 1;
       for (var x=0; x<width; x++) {
-        if (Math.random()>0.95) {
+        if (Math.random()>0.90) {
           if (useForThisNumberOfPixels == 0) {
             //paletteIndex = Math.round(Math.random()*2)*(numOfColors/4+numOfColors/8);
             paletteIndex = Math.floor(Math.random()*numOfColors);
@@ -224,7 +255,7 @@ function generatePalette2() {
            imagedata.data[pixelIndex(x  ,(y+1)%height,'b')] +
            imagedata.data[pixelIndex(x+1,(y+1)%height,'b')] +
            imagedata.data[pixelIndex(x  ,(y+2)%height,'b')]) / divid;
-        imagedata.data[pixelIndex(x,y,'a')] = ((y%2)==0) ? 192 : 256;
+        imagedata.data[pixelIndex(x,y,'a')] = ((y%2)==0) ? 256 : 256;
       }
     }
   }
